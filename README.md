@@ -18,3 +18,8 @@ Simply type `goog` then anything you would like to search for.
 Example:
 
 `goog how to reverse a linked list`
+
+# Uninstall
+To uninstall goog all you have to do is remove the file from your path directory
+
+`rm ~/bin/goog`
