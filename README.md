@@ -4,6 +4,7 @@ A simple and minimalist command line interface for executing everyday google sea
 
 # Installation
 Download the goog file via curl and output it into a directory in your PATH (in my case ~/bin)
+[see here](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/)
 
 `curl "https://raw.githubusercontent.com/joeysnclr/google-cli/master/goog" --output ~/bin/goog`
 
