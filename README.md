@@ -27,7 +27,7 @@ Example:
 
 The `SRCH_ENGINE` environment variable controls the search engine used.
 To change the default search engine to something other than google, add `export SRCH_ENGINE=<engine>`
-to your `.bashrc`, `.zshrc`, etc. file where <engine> is replaced with one of the following values.
+to your `.bashrc`, `.zshrc`, etc. file where `<engine>` is replaced with one of the following values.
 
 Other search engines:
  - duckduckgo
