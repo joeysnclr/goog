@@ -3,7 +3,7 @@ import os
 import sys
 import webbrowser
 
-searchEngine = os.environ.get('GOOG_ENGINE', 'google')
+searchEngine = os.environ.get('SRCH_ENGINE', 'google')
 
 searchEngineURLS = {
     "duckduckgo": "https://duckduckgo.com/?q={}",
