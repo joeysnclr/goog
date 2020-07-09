@@ -1,3 +1,5 @@
+![](srch.gif)
+
 # Srch-CLI
 
 A simple and minimalist command line interface for executing everyday web searches.
