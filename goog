@@ -1,13 +1,28 @@
 #!/usr/bin/env python
+import os
 import sys
 import webbrowser
+
+searchEngine = os.environ.get('GOOG_ENGINE', 'google')
+
+searchEngineURLS = {
+    "duckduckgo": "https://duckduckgo.com/?q={}",
+    "google": "https://google.com/search?q={}"
+    }
+
+if searchEngine not in searchEngineURLS:
+    print("Invalid search engine")
+    quit()
 
 if len(sys.argv) == 1:
     print("Please enter a search string")
     quit()
+
 searchString = ""
 for arg in sys.argv[1:]:
     searchString += arg + " "
-searchURL = "https://www.google.com/search?q={}".format(searchString)
-print("Opening a Google search for: {}".format(searchString))
+
+searchURL = searchEngineURLS[searchEngine].format(searchString)
+print(searchURL)
+print("Using {} to search for: {}".format(searchEngine, searchString))
 webbrowser.open(searchURL)
