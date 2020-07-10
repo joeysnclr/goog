@@ -2,27 +2,98 @@
 import os
 import sys
 import webbrowser
+import requests
+from bs4 import BeautifulSoup
+from PyInquirer import prompt, print_json
 
+
+headers = {
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0"
+}
+def googleScrape(searchString):
+    outputResults = []
+    # make request to google search and retrieve html
+    searchURL = "https://google.com/search?q={}".format(searchString)
+    r = requests.get(searchURL, headers=headers)
+    soup = BeautifulSoup(r.content, "html.parser")
+    # find all search results
+    results = soup.findAll("div", {"class": "g"})
+    for result in results:
+        titleElement = result.select_one(".r h3")
+        if titleElement == None:
+            continue
+        title = titleElement.getText()
+        link = result.select_one("a").get("href")
+        desc = result.select_one(".st").getText()
+        resultObject = {
+            "title": title,
+            "link": link,
+            "desc": desc
+        }
+        outputResults.append(resultObject)
+    return outputResults[:5]
+
+
+# handle input/config
+searchEngines = ["google", "duckduckgo"]
 searchEngine = os.environ.get('SRCH_ENGINE', 'google')
-
-searchEngineURLS = {
-    "duckduckgo": "https://duckduckgo.com/?q={}",
-    "google": "https://google.com/search?q={}"
-    }
-
-if searchEngine not in searchEngineURLS:
-    print("Invalid search engine")
+if searchEngine not in searchEngines:
+    print("invalid search engine")
     quit()
-
 if len(sys.argv) == 1:
     print("Please enter a search string")
     quit()
-
 searchString = ""
 for arg in sys.argv[1:]:
     searchString += arg + " "
 
-searchURL = searchEngineURLS[searchEngine].format(searchString)
-print(searchURL)
-print("Using {} to search for: {}".format(searchEngine, searchString))
-webbrowser.open(searchURL)
+# fetches search results
+if searchEngine == "google":
+    results = googleScrape(searchString)
+
+choices = ["{}\n{}\n{}\n".format(r['title'], r['link'], r['desc']) for r in results]
+# handles input
+questions = [
+    {
+        'type': 'list',
+        'name': 'choice',
+        'message': searchString,
+        'choices': choices
+    }
+]
+
+answer = prompt(questions)['choice']
+answerIndex = choices.index(answer)
+link = results[answerIndex]['link']
+webbrowser.open(link)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
